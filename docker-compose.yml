@@ -3,7 +3,7 @@ services:
 
   db-mysql:
     image: mysql:5.7
-    container_name: My-sql-project-P
+    container_name: Project-P-MySQL
     environment:
       MYSQL_ROOT_PASSWORD: password
       MYSQL_DATABASE: appDB
@@ -27,7 +27,7 @@ services:
       - db-mysql
     
   nginx:
-    container_name: Nginx-project-P
+    container_name: Project-P-Nginx
     image: nginx:1.21.0-alpine
     volumes:
       - ./nginx/conf.d:/etc/nginx/conf.d
