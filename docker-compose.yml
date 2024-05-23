@@ -1,0 +1,39 @@
+version: '3'
+services:
+
+  db-mysql:
+    image: mysql:5.7
+    container_name: My-sql-project-P
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: appDB
+      MYSQL_USER: user
+      MYSQL_PASSWORD: password
+    volumes:
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+    ports:
+        - "33061:3306"
+
+  backend-kotlin:
+    container_name: Kotlin-backend-project-P
+    env_file:
+      - .env
+    build:
+      context: ./server
+      dockerfile: Dockerfile
+    volumes:
+      - ./server/src/:/server/src/
+    depends_on:
+      - db-mysql
+    
+  nginx:
+    container_name: Nginx-project-P
+    image: nginx:1.21.0-alpine
+    volumes:
+      - ./nginx/conf.d:/etc/nginx/conf.d
+      - ./nginx/logs:/etc/nginx/logs
+    ports:
+      - "80:80"
+    depends_on:
+      - backend-kotlin
+
