@@ -38,7 +38,7 @@ class ProductController(val productService: ProductService, val categoryService:
         val category = categoryService.findById(request.categoryId) ?: return ResponseEntity.badRequest().build()
         val product = Product(request.name, category)
         val savedProduct = productService.save(product)
-        return ResponseEntity.created(URI.create("/"+savedProduct.name)).body(savedProduct)
+        return ResponseEntity.created(URI.create("/")).body(savedProduct)
     }
     @PutMapping
     fun update(@RequestParam id: String, @RequestParam categoryId: Int): ResponseEntity<Product>{
@@ -46,7 +46,7 @@ class ProductController(val productService: ProductService, val categoryService:
         val product = productService.findById(id) ?: return ResponseEntity.badRequest().build()
         product.category = category
         val updatedProduct = productService.save(product)
-        return ResponseEntity.created(URI.create("/"+updatedProduct.name)).body(updatedProduct)
+        return ResponseEntity.created(URI.create("/")).body(updatedProduct)
     }
     @DeleteMapping(params = ["id"], produces = ["application/json"])
     fun delete(@RequestParam id: String): ResponseEntity<Product>{
