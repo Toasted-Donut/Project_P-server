@@ -14,12 +14,12 @@ import java.util.Optional
 @RequestMapping("/category")
 class CategoryController(val categoryService: CategoryService) {
 
-    @GetMapping(value = ["/"],params = ["id"],produces = ["application/json"])
+    @GetMapping(params = ["id"],produces = ["application/json"])
     fun getCategory(@RequestParam id: Int): ResponseEntity<Optional<Category>>{
         val category: Optional<Category> = Optional.ofNullable(categoryService.findById(id))
         return ResponseEntity.ok(category)
     }
-    @GetMapping(value = ["/"], produces = ["application/json"])
+    @GetMapping(produces = ["application/json"])
     fun getCategories(): ResponseEntity<Optional<List<Category>>>{
         val categories: Optional<List<Category>> = Optional.ofNullable(categoryService.findAll())
         return ResponseEntity.ok(categories)
