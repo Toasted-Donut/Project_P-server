@@ -5,7 +5,7 @@ import jakarta.persistence.Id
 import jakarta.persistence.ManyToOne
 
 @Entity
-public data class Product(
+class Product(
     @Id
     val name: String,
     @ManyToOne

@@ -4,9 +4,8 @@ import jakarta.persistence.Entity
 import jakarta.persistence.Id
 
 @Entity
-public data class Category (
+class Category (
     @Id
-    private val id: Int,
-    private val name: String
-
+    val id: Int,
+    val name: String
 )
