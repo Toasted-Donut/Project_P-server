@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component
 import org.springframework.web.bind.annotation.CrossOrigin
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.PatchMapping
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.PutMapping
 import org.springframework.web.bind.annotation.RequestBody
@@ -37,16 +38,16 @@ class ProductController(val productService: ProductService, val categoryService:
     fun addProducts(@RequestBody request: AddRequest): ResponseEntity<Product>{
         val category = categoryService.findById(request.categoryId) ?: return ResponseEntity.badRequest().build()
         val product = Product(request.name, category)
-        val savedProduct = productService.save(product)
-        return ResponseEntity.created(URI.create("/")).body(savedProduct)
+        productService.save(product)
+        return ResponseEntity.accepted().body(product)
     }
-    @PutMapping
+    @PatchMapping
     fun update(@RequestParam id: String, @RequestParam categoryId: Int): ResponseEntity<Product>{
         val category = categoryService.findById(categoryId) ?: return ResponseEntity.badRequest().build()
         val product = productService.findById(id) ?: return ResponseEntity.badRequest().build()
         product.category = category
-        val updatedProduct = productService.save(product)
-        return ResponseEntity.created(URI.create("/")).body(updatedProduct)
+        productService.updateById(id, product)
+        return ResponseEntity.accepted().body(product)
     }
     @DeleteMapping(params = ["id"], produces = ["application/json"])
     fun delete(@RequestParam id: String): ResponseEntity<Product>{
